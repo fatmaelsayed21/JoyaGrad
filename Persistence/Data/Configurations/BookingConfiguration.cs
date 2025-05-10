@@ -16,27 +16,27 @@ namespace Persistence.Data.Configurations
            builder.HasKey(b=>b.BookingId);
             // Relationship with Decoration (Optional - Can be null)
             builder.HasOne(b => b.Decoration)
-                   .WithMany()
+                   .WithMany(d=>d.Bookings)
                    .HasForeignKey(b => b.DecorationId)
-                   .OnDelete(DeleteBehavior.SetNull);  // If Decoration is deleted, booking will still exist but with null decoration
+                   .OnDelete(DeleteBehavior.ClientCascade);  // If Decoration is deleted, booking will still exist but with null decoration
 
             // Relationship with Venue (Optional - Can be null)
             builder.HasOne(b => b.Venue)
-                   .WithMany()
+                   .WithMany(v=>v.Bookings)
                    .HasForeignKey(b => b.VenueId)
-                   .OnDelete(DeleteBehavior.SetNull);  // If Venue is deleted, booking will still exist but with null venue
+                   .OnDelete(DeleteBehavior.ClientCascade);  // If Venue is deleted, booking will still exist but with null venue
 
             // Relationship with MusicEnvironment (Optional - Can be null)
             builder.HasOne(b => b.MusicEnvironment)
-                   .WithMany()
+                   .WithMany(m=>m.Bookings)
                    .HasForeignKey(b => b.MusicEnvironmentId)
-                   .OnDelete(DeleteBehavior.SetNull);  // If MusicEnvironment is deleted, booking will still exist but with null music environment
+                   .OnDelete(DeleteBehavior.ClientCascade);  // If MusicEnvironment is deleted, booking will still exist but with null music environment
 
             // Relationship with PhotographyAndVideography (Optional - Can be null)
             builder.HasOne(b => b.PhotographyAndVideography)
-                   .WithMany()
+                   .WithMany(p=>p.Bookings)
                    .HasForeignKey(b => b.PhotographyAndVideographyId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasOne(b=>b.Buyer)
                 .WithMany(U=>U.Bookings)

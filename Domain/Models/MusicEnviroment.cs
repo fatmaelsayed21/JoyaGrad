@@ -13,20 +13,20 @@ namespace Domain.Models
         [Key]
         public int MusicEnvironmentId { get; set; }
 
-        [Required]
+       
         public string Location { get; set; }
 
-        [Required]
+        
         public string MusicEnvironmentType { get; set; }
 
-        [Required]
+       
         public string Description { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Price must be greater than or equal to 0")]
         public double Price { get; set; }
 
-        [Required]
+        
         public DateOnly Calendar { get; set; }
 
         [Required]

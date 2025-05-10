@@ -10,7 +10,7 @@ namespace Domain.Models
     public class Decoration
     {
         [Key]
-        public int DecorationID { get; set; }
+        public int DecorationId { get; set; }
         public string Location { get; set; }
         public string DecorationType { get; set; }
         public string Description { get; set; }

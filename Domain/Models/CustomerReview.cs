@@ -35,8 +35,8 @@ namespace Domain.Models
 
         // Reviewer (Buyer)
         [Required]
-        public string BuyerId { get; set; }
-        public User Buyer { get; set; }
+        public string? BuyerId { get; set; }
+        public User? Buyer { get; set; }
 
         // Reviewed Seller
         [Required]

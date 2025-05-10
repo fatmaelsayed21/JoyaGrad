@@ -16,22 +16,22 @@ namespace Persistence.Data.Configurations
             builder.HasOne(cr => cr.Venue)
           .WithMany(v => v.CustomerReviews)
           .HasForeignKey(cr => cr.VenueId)
-          .OnDelete(DeleteBehavior.Cascade);
+          .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasOne(cr => cr.Decoration)
                    .WithMany(d => d.CustomerReviews)
                    .HasForeignKey(r => r.DecorationId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasOne(cr => cr.MusicEnvironment)
                    .WithMany(m => m.CustomerReviews)
                    .HasForeignKey(cr => cr.MusicEnvironmentId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasOne(cr => cr.PhotographyAndVideography)
                    .WithMany(p => p.CustomerReviews)
                    .HasForeignKey(cr => cr.PhotographyAndVideographyId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.ClientCascade);
             builder.HasOne(cr => cr.Seller)
                   .WithMany(U => U.CustomerReviews)
                   .HasForeignKey(cr => cr.SellerId)
@@ -40,8 +40,7 @@ namespace Persistence.Data.Configurations
             builder.HasOne(cr=>cr.Buyer)
                 .WithMany(U=>U.WrittenReviews)
                 .HasForeignKey(cr=>cr.BuyerId)
-                .IsRequired(true)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
         }
     }

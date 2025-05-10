@@ -25,7 +25,7 @@ namespace Persistence.Data
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Venue> Venues { get; set; }
-        public DbSet<User> Users { get; set; }
+       
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Decoration> Decorations { get; set; }
         public DbSet<PhotographyAndVideography> PhotographyAndVideographies { get; set; }

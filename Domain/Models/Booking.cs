@@ -32,8 +32,9 @@ namespace Domain.Models
         [Range(0, double.MaxValue, ErrorMessage = "Total price must be greater than or equal to 0")]
         public double TotalPrice { get; set; }
 
-        // Optional service relationships
+        // fk
         public int? VenueId { get; set; }
+        //navigational property 
         public Venue? Venue { get; set; }
 
         public int? DecorationId { get; set; }
