@@ -1,8 +1,12 @@
 
 using System;
+using System.Text;
 using Domain.Models;
+using Joya.Api.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Persistence.Data;
 
 namespace Joya.Api
@@ -27,6 +31,26 @@ namespace Joya.Api
                 .AddEntityFrameworkStores<JoyaDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) 
+                .AddJwtBearer(options =>
+                      {
+                         options.TokenValidationParameters = new TokenValidationParameters
+                         {
+                                 ValidateIssuer = true,
+                                 ValidateAudience = true,
+                                 ValidateLifetime = true,
+                                 ValidateIssuerSigningKey = true,
+                                 ValidIssuer = "Joya.com",
+                                 ValidAudience = "Joya.com", 
+                                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("s7b@1X!z4eW#9rLpQzVt3$YgMnKx2#Hv")) // secret key
+                         };
+                });
+
+            builder.Services.Configure<EmailSettings>(
+            builder.Configuration.GetSection("EmailSettings"));
+
+            builder.Services.AddScoped<EmailService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,6 +61,9 @@ namespace Joya.Api
             }
 
             app.UseHttpsRedirection();
+
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
