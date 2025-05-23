@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
 #nullable disable
 
-namespace Persistence.Data.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(JoyaDbContext))]
-    partial class JoyaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250522223841_Edit")]
+    partial class Edit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,15 +138,22 @@ namespace Persistence.Data.Migrations
                     b.Property<DateOnly>("Calender")
                         .HasColumnType("date");
 
-                    b.Property<string>("DecorationType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DecorationType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Occaison")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -152,6 +162,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -179,11 +192,18 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MusicEnvironmentType")
+                    b.Property<int?>("MusicEnvironmentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Occasion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -192,6 +212,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -250,6 +273,10 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,6 +286,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -397,11 +427,22 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Occasion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("SellerId")
@@ -413,10 +454,9 @@ namespace Persistence.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("VenueType")
-                        .IsRequired()
+                    b.Property<int?>("VenueType")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.HasKey("VenueId");
 
@@ -621,7 +661,7 @@ namespace Persistence.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Domain.Models.User", "Seller")
-                        .WithMany("CustomerReviews")
+                        .WithMany()
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -799,8 +839,6 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("CustomerReviews");
 
                     b.Navigation("Decorations");
 

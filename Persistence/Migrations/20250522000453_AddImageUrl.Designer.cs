@@ -9,11 +9,11 @@ using Persistence.Data;
 
 #nullable disable
 
-namespace Persistence.Data.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(JoyaDbContext))]
-    [Migration("20250510000711_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250522000453_AddImageUrl")]
+    partial class AddImageUrl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,10 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -155,6 +159,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -182,6 +189,10 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -195,6 +206,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -253,6 +267,10 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -262,6 +280,9 @@ namespace Persistence.Data.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -400,11 +421,18 @@ namespace Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("SellerId")
@@ -624,7 +652,7 @@ namespace Persistence.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Domain.Models.User", "Seller")
-                        .WithMany("CustomerReviews")
+                        .WithMany()
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -802,8 +830,6 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("CustomerReviews");
 
                     b.Navigation("Decorations");
 

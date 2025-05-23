@@ -2,12 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Models
 {
+    public enum VenueType
+    {
+        Hall = 1,
+        Beach = 2,
+        Graden = 3,
+        RoofTop = 4,
+        Yacht = 5 
+        
+
+    }
     public class Venue 
     {
         [Key]
@@ -17,9 +28,9 @@ namespace Domain.Models
         [StringLength(100)]
         public string VenueName { get; set; }
 
-        [Required]
+        
         [StringLength(50)]
-        public string VenueType { get; set; }
+        public VenueType? VenueType { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -38,10 +49,21 @@ namespace Domain.Models
         [Required]
         public string Location { get; set; }
 
+        public double Rating { get; set; }
+
+        public string ImageUrl { get; set; }
+
         public ICollection<CustomerReview> CustomerReviews { get; set; } = new List<CustomerReview>();
 
         // Navigation properties for bookings
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
+
+        public string Occasion { get; set; }
+
+
+        [NotMapped]
+        public int TotalBookings => Bookings?.Count ?? 0;
 
         [Required]
         public string SellerId { get; set; }

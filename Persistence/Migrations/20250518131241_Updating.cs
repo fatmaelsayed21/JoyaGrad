@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Persistence.Data.Migrations
+namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Updating : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -170,6 +170,7 @@ namespace Persistence.Data.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calender = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -195,6 +196,7 @@ namespace Persistence.Data.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calendar = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -220,6 +222,7 @@ namespace Persistence.Data.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calender = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -268,6 +271,7 @@ namespace Persistence.Data.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>

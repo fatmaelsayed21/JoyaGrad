@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Models
 {
+   
     public class User : IdentityUser
     {
         [Required]
@@ -18,6 +19,9 @@ namespace Domain.Models
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+
+       
 
         // Buyer relationships
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
@@ -30,32 +34,10 @@ namespace Domain.Models
         public ICollection<PhotographyAndVideography> PhotographyAndVideographies { get; set; } = new List<PhotographyAndVideography>();
         public ICollection<MusicEnvironment> MusicEnviroments { get; set; } = new List<MusicEnvironment>();
         public ICollection<Post> Posts { get; set; } = new List<Post>();
-        public ICollection<CustomerReview> CustomerReviews { get; set; } = new List<CustomerReview>();
+        
 
-        [NotMapped]
-        public double AverageRate
-        {
-            get
-            {
-                var allReviews = new List<CustomerReview>();
-                
-                if (Venues != null)
-                    allReviews.AddRange(Venues.SelectMany(v => v.CustomerReviews ?? Enumerable.Empty<CustomerReview>()));
-                
-                if (Decorations != null)
-                    allReviews.AddRange(Decorations.SelectMany(d => d.CustomerReviews ?? Enumerable.Empty<CustomerReview>()));
-                
-                if (MusicEnviroments != null)
-                    allReviews.AddRange(MusicEnviroments.SelectMany(m => m.CustomerReviews ?? Enumerable.Empty<CustomerReview>()));
-                
-                if (PhotographyAndVideographies != null)
-                    allReviews.AddRange(PhotographyAndVideographies.SelectMany(p => p.CustomerReviews ?? Enumerable.Empty<CustomerReview>()));
 
-                return allReviews.Any() ? allReviews.Average(r => r.Rating) : 0;
-            }
-        }
 
-        [NotMapped]
-        public int TotalBookings => Bookings?.Count ?? 0;
+        
     }
 }

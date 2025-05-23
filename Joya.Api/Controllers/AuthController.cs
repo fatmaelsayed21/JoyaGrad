@@ -75,6 +75,7 @@ namespace Joya.Api.Controllers
             if (existingUserByEmail != null)
                 return BadRequest("Email already exists.");
 
+           
             // Create user
             var user = new User
             {
@@ -82,6 +83,7 @@ namespace Joya.Api.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
+                
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -93,6 +95,12 @@ namespace Joya.Api.Controllers
 
                 return BadRequest(ModelState);
             }
+            var validRoles = new[] { "Buyer", "Seller" };
+            if (!validRoles.Contains(model.Role, StringComparer.OrdinalIgnoreCase))
+                return BadRequest("Invalid role.");
+
+            
+            await _userManager.AddToRoleAsync(user, model.Role);
 
             return Ok(new { message = "User registered successfully." });
         }

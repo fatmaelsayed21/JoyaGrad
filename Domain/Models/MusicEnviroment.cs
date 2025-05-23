@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,16 +9,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Models
 {
+    public enum MusicEnvironmentType
+    {
+        DJ = 1,
+        Singer =2,
+        Zaffa = 3,
+        Tabla = 4,
+        Other = 5
+    }
     public class MusicEnvironment
     {
         [Key]
         public int MusicEnvironmentId { get; set; }
 
-       
+        public string ImageUrl { get; set; }
         public string Location { get; set; }
 
         
-        public string MusicEnvironmentType { get; set; }
+        public MusicEnvironmentType? MusicEnvironmentType { get; set; }
 
        
         public string Description { get; set; }
@@ -35,6 +44,12 @@ namespace Domain.Models
 
         public ICollection<CustomerReview> CustomerReviews { get; set; } = new List<CustomerReview>();
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
+        public double Rating { get; set; }
+        public string Occasion { get; set; }
+
+        [NotMapped]
+        public int TotalBookings => Bookings?.Count ?? 0;
 
         [Required]
         public string SellerId { get; set; }

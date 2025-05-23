@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace Domain.Models
     {
         [Key]
         public int PhotoGraphy_VideoGraphyID { get; set; }
+
+
+        public string ImageUrl { get; set; }
 
         [Required]
         public ServiceType Type { get; set; }
@@ -40,6 +44,12 @@ namespace Domain.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Program number must be greater than 0")]
         public int ProgramNumber { get; set; }
+
+
+        public double Rating { get; set; }
+
+        [NotMapped]
+        public int TotalBookings => Bookings?.Count ?? 0;
 
         [Required]
         public string SellerId { get; set; }

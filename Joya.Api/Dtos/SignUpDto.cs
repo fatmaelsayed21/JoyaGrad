@@ -13,6 +13,8 @@ namespace Joya.Api.Dtos
         [Required(ErrorMessage = "LastName is Required !!")]
         public string LastName { get; set; }
 
+        public string Role { get; set; }
+
         [Required(ErrorMessage = "Email is Required !!")]
         [EmailAddress]
         public string Email { get; set; }

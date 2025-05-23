@@ -32,10 +32,7 @@ namespace Persistence.Data.Configurations
                    .WithMany(p => p.CustomerReviews)
                    .HasForeignKey(cr => cr.PhotographyAndVideographyId)
                    .OnDelete(DeleteBehavior.ClientCascade);
-            builder.HasOne(cr => cr.Seller)
-                  .WithMany(U => U.CustomerReviews)
-                  .HasForeignKey(cr => cr.SellerId)
-                  .IsRequired(true).OnDelete(DeleteBehavior.Cascade);
+          
 
             builder.HasOne(cr=>cr.Buyer)
                 .WithMany(U=>U.WrittenReviews)

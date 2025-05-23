@@ -1,13 +1,16 @@
 
 using System;
 using System.Text;
+using Domain.Contracts;
 using Domain.Models;
 using Joya.Api.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Persentation;
 using Persistence.Data;
+using Persistence.Repositories;
 
 namespace Joya.Api
 {
@@ -51,6 +54,22 @@ namespace Joya.Api
 
             builder.Services.AddScoped<EmailService>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
+
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IVenueService, VenueService>();
+            builder.Services.AddScoped<IDecorationService, DecorationService>();
+            builder.Services.AddScoped<IMusicEnvironment, MusicEnvironmentService>();
+            builder.Services.AddScoped<IPhotographyAndVideogrpahy, PhotographyAndVideographyService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -60,11 +79,14 @@ namespace Joya.Api
                 app.UseSwaggerUI();
             }
 
+
+
             app.UseHttpsRedirection();
 
 
             app.UseAuthentication();
 
+            app.UseCors("AllowAll");
             app.UseAuthorization();
 
 
