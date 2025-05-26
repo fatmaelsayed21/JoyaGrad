@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Models;
 using Joya.Api.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Joya.Api.Controllers
@@ -76,6 +77,8 @@ namespace Joya.Api.Controllers
             return Ok(dto);
         }
 
+
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDecorationDto dto)
         {
@@ -96,6 +99,8 @@ namespace Joya.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = decoration.DecorationId }, decoration);
         }
 
+
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateDecorationDto dto)
         {
@@ -121,7 +126,7 @@ namespace Joya.Api.Controllers
             return NoContent();
         }
 
-
+        [Authorize(Roles = "Seller,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

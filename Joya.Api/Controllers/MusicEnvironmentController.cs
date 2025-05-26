@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Models;
 using Joya.Api.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persentation;
 
@@ -74,6 +75,7 @@ namespace Joya.Api.Controllers
             return Ok(dto);
         }
 
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateMusicEnvironmentDto dto)
         {
@@ -106,6 +108,7 @@ namespace Joya.Api.Controllers
             });
         }
 
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMusicEnvironmentDto dto)
         {
@@ -141,7 +144,7 @@ namespace Joya.Api.Controllers
                 TotalBookings = existing.TotalBookings
             });
         }
-
+        [Authorize(Roles = "Seller,Admin")]
         // DELETE
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

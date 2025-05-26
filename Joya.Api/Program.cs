@@ -10,13 +10,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Persentation;
 using Persistence.Data;
+using Persistence.Data.Seeding;
 using Persistence.Repositories;
 
 namespace Joya.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +73,7 @@ namespace Joya.Api
 
             builder.Services.AddMemoryCache();
 
+            
 
             var app = builder.Build();
 
@@ -80,6 +82,15 @@ namespace Joya.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var userManager = services.GetRequiredService<UserManager<User>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                await IdentitySeeder.SeedAsync(userManager, roleManager);
             }
 
 

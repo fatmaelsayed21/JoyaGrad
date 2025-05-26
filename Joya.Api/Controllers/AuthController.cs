@@ -134,6 +134,8 @@ namespace Joya.Api.Controllers
         }
         #endregion
 
+
+
         #region SignOut
 
         [HttpPost("SignOut")]

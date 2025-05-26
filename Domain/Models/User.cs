@@ -20,8 +20,11 @@ namespace Domain.Models
         [StringLength(50)]
         public string LastName { get; set; }
 
+        [NotMapped] 
+        public string FullName => $"{FirstName} {LastName}";
 
-       
+
+
 
         // Buyer relationships
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();

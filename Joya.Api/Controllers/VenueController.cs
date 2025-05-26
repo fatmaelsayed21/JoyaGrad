@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Models;
 using Joya.Api.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
@@ -74,6 +75,9 @@ namespace Joya.Api.Controllers
 
             return Ok(dto);
         }
+
+
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateVenueDto dto)
         {
@@ -107,6 +111,8 @@ namespace Joya.Api.Controllers
             });
         }
 
+
+        [Authorize(Roles = "Seller,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateVenueDto dto)
         {
@@ -143,6 +149,8 @@ namespace Joya.Api.Controllers
                 TotalBooking = existingVenue.TotalBookings
             });
         }
+
+        [Authorize(Roles = "Seller,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
