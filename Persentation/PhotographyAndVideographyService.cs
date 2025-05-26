@@ -28,7 +28,9 @@ namespace Persentation
         {
             return await _repository.GetFirstOrDefaultAsync(
              filter: p => p.PhotoGraphy_VideoGraphyID == id,
-             include: q => q.Include(p => p.Bookings)
+             include: q => q
+             .Include(p => p.Bookings)
+             .Include(p => p.CustomerReviews)
          );
         }
 
@@ -52,6 +54,8 @@ namespace Persentation
 
             if (maxPrice.HasValue)
                 query = query.Where(p => p.Price <= maxPrice.Value);
+
+         
 
             return await query.ToListAsync();
         }

@@ -46,9 +46,18 @@ namespace Domain.Models
         public int ProgramNumber { get; set; }
 
 
-        public double Rating { get; set; }
+        public double Rating
+        {
+            get
+            {
+                if (CustomerReviews == null || !CustomerReviews.Any())
+                    return 0;
 
-        [NotMapped]
+                return Math.Round(CustomerReviews.Average(r => r.Rating), 1);
+            }
+        }
+
+            [NotMapped]
         public int TotalBookings => Bookings?.Count ?? 0;
 
         [Required]

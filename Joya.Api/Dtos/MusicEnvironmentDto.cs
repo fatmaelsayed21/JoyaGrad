@@ -12,6 +12,9 @@ namespace Joya.Api.Dtos
         public double Rating { get; set; }
 
         public MusicEnvironmentType? MusicEnvironmentType { get; set; }
+
+        public ICollection<CustomerReview>? CustomerReviews { get; set; }
+
         public int ProgramNumber { get; set; }
         public DateOnly Calendar { get; set; }
         public string Occasion { get; set; }

@@ -29,7 +29,7 @@ namespace Persentation
         {
             return await _decorationRepository.GetFirstOrDefaultAsync(
             filter: d => d.DecorationId == id,
-            include: q => q.Include(d => d.Bookings)
+            include: q => q.Include(d => d.Bookings).Include(d => d.CustomerReviews)
         );
         }
 

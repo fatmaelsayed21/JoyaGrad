@@ -6,14 +6,17 @@ using Persentation;
 
 namespace Joya.Api.Controllers
 {
-    [Route("api/music-environment")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class MusicEnvironmentController : ControllerBase
     {
         private readonly IMusicEnvironment _musicEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public MusicEnvironmentController(IMusicEnvironment musicEnvironment)
+        public MusicEnvironmentController(IMusicEnvironment musicEnvironment , IConfiguration configuration)
         {
             _musicEnvironment = musicEnvironment;
+           _configuration = configuration;
         }
 
         [HttpGet]
@@ -25,11 +28,11 @@ namespace Joya.Api.Controllers
         [FromQuery] string? occasion)
         {
             var result = await _musicEnvironment.GetFilteredMusicEnvironmentsAsync(type, location, minPrice, maxPrice, occasion);
-
+            var baseUrl = _configuration["BaseUrl"];
             var mapped = result.Select(m => new MusicEnvironmentDto
             {
                 MusicEnvironmentId = m.MusicEnvironmentId,
-                ImageUrl = m.ImageUrl,
+                ImageUrl = string.IsNullOrEmpty(m.ImageUrl) ? null : $"{baseUrl}/images/{m.ImageUrl}",
                 Location = m.Location,
                 Description = m.Description,
                 Price = m.Price,
@@ -50,10 +53,13 @@ namespace Joya.Api.Controllers
             var entity = await _musicEnvironment.GetMusicEnvironmentByIdAsync(id);
             if (entity == null) return NotFound();
 
+            var baseUrl = _configuration["BaseUrl"];
+
+
             var dto = new MusicEnvironmentDto
             {
                 MusicEnvironmentId = entity.MusicEnvironmentId,
-                ImageUrl = entity.ImageUrl,
+                ImageUrl = string.IsNullOrEmpty(entity.ImageUrl) ? null : $"{baseUrl}/images/{entity.ImageUrl}",
                 Location = entity.Location,
                 Description = entity.Description,
                 Price = entity.Price,
@@ -61,6 +67,7 @@ namespace Joya.Api.Controllers
                 MusicEnvironmentType = entity.MusicEnvironmentType,
                 ProgramNumber = entity.ProgramNumber,
                 Calendar = entity.Calendar,
+                CustomerReviews = entity.CustomerReviews,
                 TotalBookings = entity.TotalBookings
             };
 
@@ -72,7 +79,7 @@ namespace Joya.Api.Controllers
         {
             var entity = new MusicEnvironment
             {
-                ImageUrl = dto.ImageUrl,
+                ImageUrl = dto.ImageUrl, 
                 Location = dto.Location,
                 Description = dto.Description,
                 Price = dto.Price,
@@ -83,10 +90,22 @@ namespace Joya.Api.Controllers
             };
 
             await _musicEnvironment.AddMusicEnvironmentAsync(entity);
-            return CreatedAtAction(nameof(GetById), new { id = entity.MusicEnvironmentId }, entity);
+
+            var baseUrl = _configuration["BaseUrl"];
+            var fullImageUrl = string.IsNullOrEmpty(entity.ImageUrl) ? null : $"{baseUrl}/images/{entity.ImageUrl}";
+
+            return CreatedAtAction(nameof(GetById), new { id = entity.MusicEnvironmentId }, new MusicEnvironmentDto
+            {
+                MusicEnvironmentId = entity.MusicEnvironmentId,
+                ImageUrl = fullImageUrl,
+                Location = entity.Location,
+                Description = entity.Description,
+                Price = entity.Price,
+                Rating = entity.Rating,
+                TotalBookings = entity.TotalBookings
+            });
         }
 
-        // PUT
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMusicEnvironmentDto dto)
         {
@@ -97,21 +116,30 @@ namespace Joya.Api.Controllers
             if (existing == null)
                 return NotFound();
 
-            var entity = new MusicEnvironment
-            {
-                MusicEnvironmentId = dto.MusicEnvironmentId,
-                ImageUrl = dto.ImageUrl,
-                Location = dto.Location,
-                Description = dto.Description,
-                Price = dto.Price,
-                Calendar = dto.Calendar,
-                ProgramNumber = dto.ProgramNumber,
-                SellerId = dto.SellerId,
-                MusicEnvironmentType = dto.MusicEnvironmentType
-            };
+            existing.ImageUrl = dto.ImageUrl;
+            existing.Location = dto.Location;
+            existing.Description = dto.Description;
+            existing.Price = dto.Price;
+            existing.Calendar = dto.Calendar;
+            existing.ProgramNumber = dto.ProgramNumber;
+            existing.SellerId = dto.SellerId;
+            existing.MusicEnvironmentType = dto.MusicEnvironmentType;
 
-            await _musicEnvironment.UpdateMusicEnvironmentAsync(entity);
-            return NoContent();
+            await _musicEnvironment.UpdateMusicEnvironmentAsync(existing);
+
+            var baseUrl = _configuration["BaseUrl"];
+            var fullImageUrl = string.IsNullOrEmpty(existing.ImageUrl) ? null : $"{baseUrl}/images/{existing.ImageUrl}";
+
+            return Ok(new MusicEnvironmentDto
+            {
+                MusicEnvironmentId = existing.MusicEnvironmentId,
+                ImageUrl = fullImageUrl,
+                Location = existing.Location,
+                Description = existing.Description,
+                Price = existing.Price,
+                Rating = existing.Rating,
+                TotalBookings = existing.TotalBookings
+            });
         }
 
         // DELETE

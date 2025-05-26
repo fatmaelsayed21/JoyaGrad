@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Joya.Api.Controllers
 {
-    [Route("api/photography")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class PhotographyAndVideographyController : ControllerBase
     {
         private readonly IPhotographyAndVideogrpahy _photographyAndVideographyService;
+        private readonly IConfiguration _configuration;
 
-        public PhotographyAndVideographyController(IPhotographyAndVideogrpahy photographyAndVideographyService)
+        public PhotographyAndVideographyController(IPhotographyAndVideogrpahy photographyAndVideographyService , IConfiguration configuration)
         {
             _photographyAndVideographyService = photographyAndVideographyService;
+            _configuration = configuration;
         }
 
 
@@ -24,11 +27,11 @@ namespace Joya.Api.Controllers
                              [FromQuery] double? maxPrice)
         {
             var items = await _photographyAndVideographyService.GetFilteredPhotographyAndVideographyAsync(type, location, minPrice, maxPrice);
-
+            var baseUrl = _configuration["BaseUrl"];
             var result = items.Select(item => new PhotographyAndVideographyDto
             {
                 Photography_VideographyID = item.PhotoGraphy_VideoGraphyID,
-                ImageUrl = item.ImageUrl,
+                ImageUrl = string.IsNullOrEmpty(item.ImageUrl) ? null : $"{baseUrl}/images/{item.ImageUrl}",
                 Location = item.Location,
                 Description = item.Description,
                 Price = item.Price,
@@ -46,13 +49,17 @@ namespace Joya.Api.Controllers
             if (item == null)
                 return NotFound();
 
+            var baseUrl = _configuration["BaseUrl"];
+            var fullImageUrl = string.IsNullOrEmpty(item.ImageUrl) ? null : $"{baseUrl}/images/{item.ImageUrl}";
+
             var dto = new PhotographyAndVideographyDto
             {
                 Photography_VideographyID = item.PhotoGraphy_VideoGraphyID,
-                ImageUrl = item.ImageUrl,
+                ImageUrl = fullImageUrl,
                 Location = item.Location,
                 Description = item.Description,
                 Price = item.Price,
+                CustomerReviews =item.CustomerReviews,
                 Rating = item.Rating,
                 TotalBookings = item.TotalBookings
             };
@@ -80,20 +87,20 @@ namespace Joya.Api.Controllers
 
             await _photographyAndVideographyService.AddPhotographyAndVideographyAsync(item);
 
+            var baseUrl = _configuration["BaseUrl"];
+            var fullImageUrl = string.IsNullOrEmpty(item.ImageUrl) ? null : $"{baseUrl}/images/{item.ImageUrl}";
+
             return CreatedAtAction(nameof(GetById), new { id = item.PhotoGraphy_VideoGraphyID }, new PhotographyAndVideographyDto
             {
                 Photography_VideographyID = item.PhotoGraphy_VideoGraphyID,
-                ImageUrl = item.ImageUrl,
+                ImageUrl = fullImageUrl,
                 Location = item.Location,
                 Description = item.Description,
                 Price = item.Price,
                 Rating = item.Rating,
                 TotalBookings = item.TotalBookings
             });
-
-
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdatePhotographyAndVideographyDto dto)
@@ -115,7 +122,20 @@ namespace Joya.Api.Controllers
             existingItem.SellerId = dto.SellerId;
 
             await _photographyAndVideographyService.UpdatePhotographyAndVideographyAsync(existingItem);
-            return NoContent();
+
+            var baseUrl = _configuration["BaseUrl"];
+            var fullImageUrl = string.IsNullOrEmpty(existingItem.ImageUrl) ? null : $"{baseUrl}/images/{existingItem.ImageUrl}";
+
+            return Ok(new PhotographyAndVideographyDto
+            {
+                Photography_VideographyID = existingItem.PhotoGraphy_VideoGraphyID,
+                ImageUrl = fullImageUrl,
+                Location = existingItem.Location,
+                Description = existingItem.Description,
+                Price = existingItem.Price,
+                Rating = existingItem.Rating,
+                TotalBookings = existingItem.TotalBookings
+            });
         }
 
         [HttpDelete("{id}")]

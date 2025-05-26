@@ -26,7 +26,9 @@ namespace Persentation
         {
             return await _musicEnvironmentRepository.GetFirstOrDefaultAsync(
            filter: m => m.MusicEnvironmentId == id,
-           include: q => q.Include(m => m.Bookings));
+           include: q => q
+           .Include(m => m.Bookings)
+           .Include(m=>m.CustomerReviews));
         }
 
         public async Task<IEnumerable<MusicEnvironment>> GetFilteredMusicEnvironmentsAsync(MusicEnvironmentType? type, string? location, double? minPrice, double? maxPrice, string? occasion)

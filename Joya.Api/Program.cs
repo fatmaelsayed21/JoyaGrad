@@ -62,12 +62,15 @@ namespace Joya.Api
                                     .AllowAnyHeader());
             });
 
-
+           
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IVenueService, VenueService>();
             builder.Services.AddScoped<IDecorationService, DecorationService>();
             builder.Services.AddScoped<IMusicEnvironment, MusicEnvironmentService>();
             builder.Services.AddScoped<IPhotographyAndVideogrpahy, PhotographyAndVideographyService>();
+            builder.Services.AddScoped<BookingService, BookingService>();
+
+            builder.Services.AddMemoryCache();
 
 
             var app = builder.Build();
@@ -87,6 +90,7 @@ namespace Joya.Api
             app.UseAuthentication();
 
             app.UseCors("AllowAll");
+            app.UseStaticFiles();
             app.UseAuthorization();
 
 

@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Joya.Api.Controllers
 {
-    [Route("api/decoration")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class DecorationController : ControllerBase
     {
         private readonly IDecorationService _decorationService;
+        private readonly IConfiguration _configuration;
 
-        public DecorationController(IDecorationService decorationService)
+        public DecorationController(IDecorationService decorationService , IConfiguration configuration)
         {
             _decorationService = decorationService;
+           _configuration = configuration;
         }
 
         [HttpGet]
@@ -24,11 +27,12 @@ namespace Joya.Api.Controllers
         [FromQuery] string? occasion)
         {
             var items = await _decorationService.GetFilteredDecorationsAsync(type, location, minPrice, maxPrice, occasion);
+            var baseUrl = _configuration["BaseUrl"];
 
             var result = items.Select(d => new DecorationDto
             {
                 DecorationId = d.DecorationId,
-                ImageUrl = d.ImageUrl,
+                ImageUrl = string.IsNullOrEmpty(d.ImageUrl) ? null : $"{baseUrl}/images/{d.ImageUrl}",
                 Location = d.Location,
                 Description = d.Description,
                 Price = d.Price,
@@ -50,10 +54,13 @@ namespace Joya.Api.Controllers
             if (decoration == null)
                 return NotFound();
 
+            var baseUrl = _configuration["BaseUrl"];
+            var imageUrl = string.IsNullOrEmpty(decoration.ImageUrl) ? null : $"{baseUrl}/images/{decoration.ImageUrl}";
+
             var dto = new DecorationDto
             {
                 DecorationId = decoration.DecorationId,
-                ImageUrl = decoration.ImageUrl,
+                ImageUrl = imageUrl,
                 Location = decoration.Location,
                 Description = decoration.Description,
                 Price = decoration.Price,
@@ -62,6 +69,7 @@ namespace Joya.Api.Controllers
                 ProgramNumber = decoration.ProgramNumber,
                 Calender = decoration.Calender,
                 Occaison = decoration.Occaison,
+                CustomerReviews = decoration.CustomerReviews,
                 TotalBookings = decoration.TotalBookings
             };
 
@@ -80,9 +88,8 @@ namespace Joya.Api.Controllers
                 Price = dto.Price,
                 Calender = dto.Calender,
                 ProgramNumber = dto.ProgramNumber,
-                SellerId = dto.SellerId,
-                Occaison = dto.Occasion,
-                Rating = 0
+                SellerId = dto.SellerId, 
+                Occaison = dto.Occasion
             };
 
             await _decorationService.AddDecorationAsync(decoration);
@@ -99,24 +106,21 @@ namespace Joya.Api.Controllers
             if (existing == null)
                 return NotFound();
 
-            var updated = new Decoration
-            {
-                DecorationId = dto.DecorationId,
-                ImageUrl = dto.ImageUrl,
-                DecorationType = dto.DecorationType,
-                Location = dto.Location,
-                Description = dto.Description,
-                Price = dto.Price,
-                Calender = dto.Calender,
-                ProgramNumber = dto.ProgramNumber,
-                SellerId = dto.SellerId,
-                Occaison = dto.Occasion,
-                Rating = existing.Rating // retain old rating
-            };
+         
+            existing.ImageUrl = dto.ImageUrl;
+            existing.DecorationType = dto.DecorationType;
+            existing.Location = dto.Location;
+            existing.Description = dto.Description;
+            existing.Price = dto.Price;
+            existing.Calender = dto.Calender;
+            existing.ProgramNumber = dto.ProgramNumber;
+            existing.SellerId = dto.SellerId;
+            existing.Occaison = dto.Occasion;
 
-            await _decorationService.UpdateDecorationAsync(updated);
+            await _decorationService.UpdateDecorationAsync(existing);
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

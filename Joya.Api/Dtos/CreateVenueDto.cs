@@ -19,6 +19,9 @@ namespace Joya.Api.Dtos
         [Required]
         public DateOnly Calendar { get; set; }
 
+        public ICollection<CustomerReview>? CustomerReviews { get; set; }
+
+
         [Required]
         [Range(0, double.MaxValue)]
         public double Price { get; set; }

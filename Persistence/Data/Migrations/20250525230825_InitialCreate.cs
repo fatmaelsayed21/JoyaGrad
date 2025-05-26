@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Persistence.Migrations
+namespace Persistence.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Updating : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -164,13 +164,14 @@ namespace Persistence.Migrations
                 {
                     DecorationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DecorationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DecorationType = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calender = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
+                    Occaison = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -190,13 +191,14 @@ namespace Persistence.Migrations
                 {
                     MusicEnvironmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MusicEnvironmentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MusicEnvironmentType = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calendar = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
+                    Occasion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -216,13 +218,13 @@ namespace Persistence.Migrations
                 {
                     PhotoGraphy_VideoGraphyID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Calender = table.Column<DateOnly>(type: "date", nullable: false),
                     ProgramNumber = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -265,13 +267,14 @@ namespace Persistence.Migrations
                     VenueId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VenueName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    VenueType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    VenueType = table.Column<int>(type: "int", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Calendar = table.Column<DateOnly>(type: "date", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Occasion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>

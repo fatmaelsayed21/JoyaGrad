@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
 #nullable disable
 
-namespace Persistence.Migrations
+namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(JoyaDbContext))]
-    [Migration("20250522223841_Edit")]
-    partial class Edit
+    partial class JoyaDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +160,6 @@ namespace Persistence.Migrations
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
                     b.Property<string>("SellerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -212,9 +206,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -286,9 +277,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -440,9 +428,6 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("SellerId")

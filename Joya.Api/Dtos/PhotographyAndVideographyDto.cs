@@ -1,4 +1,6 @@
-﻿namespace Joya.Api.Dtos
+﻿using Domain.Models;
+
+namespace Joya.Api.Dtos
 {
     public class PhotographyAndVideographyDto
     {
@@ -8,6 +10,8 @@
         public string Description { get; set; }
         public double Price { get; set; }
         public double Rating { get; set; }
+
+        public ICollection<CustomerReview>? CustomerReviews { get; set; }
 
         public int TotalBookings { get; set; }
     }

@@ -28,7 +28,9 @@ namespace Persentation
             return await _venueRepository.GetFirstOrDefaultAsync
             (
                  filter: v => v.VenueId == id,
-                 include: q => q.Include(v => v.Bookings)
+                 include: q => q.
+                 Include(v => v.Bookings)
+                 .Include(v => v.CustomerReviews)
             );
         }
 

@@ -9,11 +9,11 @@ using Persistence.Data;
 
 #nullable disable
 
-namespace Persistence.Migrations
+namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(JoyaDbContext))]
-    [Migration("20250522000453_AddImageUrl")]
-    partial class AddImageUrl
+    [Migration("20250525230825_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,9 +138,8 @@ namespace Persistence.Migrations
                     b.Property<DateOnly>("Calender")
                         .HasColumnType("date");
 
-                    b.Property<string>("DecorationType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DecorationType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -154,14 +153,15 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Occaison")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -197,7 +197,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MusicEnvironmentType")
+                    b.Property<int?>("MusicEnvironmentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Occasion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -206,9 +209,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -280,9 +280,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ProgramNumber")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -429,10 +426,11 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<string>("Occasion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("SellerId")
@@ -444,10 +442,9 @@ namespace Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("VenueType")
-                        .IsRequired()
+                    b.Property<int?>("VenueType")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.HasKey("VenueId");
 

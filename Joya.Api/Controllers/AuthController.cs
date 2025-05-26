@@ -13,8 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Joya.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;

@@ -34,7 +34,17 @@ namespace Domain.Models
         public int ProgramNumber { get; set; }
         public ICollection<CustomerReview> CustomerReviews { get; set; } = new List<CustomerReview>();
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-        public double Rating { get; set; }
+        public double Rating
+        {
+            get
+            {
+                if (CustomerReviews == null || !CustomerReviews.Any())
+                    return 0;
+
+                return Math.Round(CustomerReviews.Average(r => r.Rating), 1);
+            }
+        }
+
 
         public string Occaison { get; set; }
         [NotMapped]

@@ -9,6 +9,9 @@ namespace Joya.Api.Dtos
         public string Location { get; set; }
 
         public DecorationType? DecorationType { get; set; }
+
+        public ICollection<CustomerReview>? CustomerReviews { get; set; }
+
         public int ProgramNumber { get; set; }
 
         public DateOnly Calender { get; set; }

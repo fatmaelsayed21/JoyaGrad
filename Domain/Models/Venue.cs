@@ -49,7 +49,16 @@ namespace Domain.Models
         [Required]
         public string Location { get; set; }
 
-        public double Rating { get; set; }
+        public double Rating
+        {
+            get
+            {
+                if (CustomerReviews == null || !CustomerReviews.Any())
+                    return 0;
+
+                return Math.Round(CustomerReviews.Average(r => r.Rating), 1);
+            }
+        }
 
         public string ImageUrl { get; set; }
 
